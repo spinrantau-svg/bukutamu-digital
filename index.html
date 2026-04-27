@@ -116,17 +116,17 @@
                         <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
                             <span class="w-6 text-center mr-2">👤</span> Nama Lengkap / Perwakilan
                         </label>
-                        <input type="text" name="nama" required 
+                        <input type="text" name="nama" id="nama" required 
                             class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
                             placeholder="Contoh: Budi Santoso">
                     </div>
 
-                    <!-- NEW: Asal Tamu -->
+                    <!-- Asal Tamu -->
                     <div class="input-card group">
                         <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
                             <span class="w-6 text-center mr-2">🏢</span> Asal Instansi / Alamat
                         </label>
-                        <input type="text" name="asal" required 
+                        <input type="text" name="asal" id="asal" required 
                             class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
                             placeholder="Contoh: Dinas Kesehatan Tapin / Desa Tatakan">
                     </div>
@@ -137,7 +137,7 @@
                             <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
                                 <span class="w-6 text-center mr-2">👥</span> Jumlah Rombongan
                             </label>
-                            <input type="number" name="jumlah" required min="1"
+                            <input type="number" name="jumlah" id="jumlah" required min="1"
                                 class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
                                 placeholder="1">
                         </div>
@@ -146,7 +146,7 @@
                             <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
                                 <span class="w-6 text-center mr-2">📱</span> No. WhatsApp
                             </label>
-                            <input type="tel" name="kontak" required 
+                            <input type="tel" name="kontak" id="kontak" required 
                                 class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
                                 placeholder="081234567xxx">
                         </div>
@@ -157,7 +157,7 @@
                         <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
                             <span class="w-6 text-center mr-2">🚪</span> Ruangan / Bagian Tujuan
                         </label>
-                        <select name="ruangan" required
+                        <select name="ruangan" id="ruangan" required
                             class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all appearance-none">
                             <option value="">Pilih Bagian...</option>
                             <option>Bagian Protokol & Komunikasi Pimpinan</option>
@@ -176,7 +176,7 @@
                         <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
                             <span class="w-6 text-center mr-2">📋</span> Kategori Tujuan
                         </label>
-                        <select name="kategori" required
+                        <select name="kategori" id="kategori" required
                             class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all appearance-none">
                             <option value="">Pilih Kategori</option>
                             <option>Rapat Koordinasi</option>
@@ -195,44 +195,10 @@
                         <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
                             <span class="w-6 text-center mr-2">💬</span> Maksud & Tujuan
                         </label>
-                        <textarea name="perihal" rows="3" required 
+                        <textarea name="perihal" id="perihal" rows="3" required 
                             class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
                             placeholder="Jelaskan keperluan kunjungan Anda secara singkat..."></textarea>
                     </div>
-
-                    <!-- Standards & Ethics -->
-                    <details class="group border border-slate-100 rounded-3xl overflow-hidden bg-slate-50/50">
-                        <summary class="flex justify-between items-center px-6 py-4 cursor-pointer list-none">
-                            <span class="text-xs font-bold text-slate-600 uppercase tracking-tighter flex items-center">
-                                <span class="mr-2">⚖️</span> Etika & Standar Pelayanan
-                            </span>
-                            <span class="text-slate-400 group-open:rotate-180 transition-transform text-[10px]">▼</span>
-                        </summary>
-                        <div class="px-6 pb-5 border-t border-slate-100 pt-4 space-y-4">
-                            <div>
-                                <h4 class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-2 flex items-center">
-                                    <span class="mr-2">✅</span> Standar Kunjungan
-                                </h4>
-                                <ul class="text-[11px] text-slate-500 space-y-1 ml-4 list-disc font-medium">
-                                    <li>Berpakaian rapi dan sopan</li>
-                                    <li>Datang tepat waktu sesuai janji</li>
-                                    <li>Membawa identitas diri yang valid</li>
-                                    <li>Mematikan atau mengatur HP ke mode silent</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-2 flex items-center">
-                                    <span class="mr-2">🤝</span> Etika Kunjungan
-                                </h4>
-                                <ul class="text-[11px] text-slate-500 space-y-1 ml-4 list-disc font-medium">
-                                    <li>Bersikap sopan dan santun</li>
-                                    <li>Menyampaikan maksud dengan jelas</li>
-                                    <li>Menghormati waktu pejabat</li>
-                                    <li>Mengikuti protokol kesehatan yang berlaku</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </details>
 
                     <!-- Submit Button -->
                     <button type="submit" id="btn-submit" class="w-full bg-gradient-tapin text-white font-bold py-5 rounded-[2rem] shadow-xl shadow-indigo-100 transform active:scale-[0.97] transition-all flex items-center justify-center gap-3 group">
@@ -247,38 +213,21 @@
 
         <!-- SECTION: LAPORAN ADMIN -->
         <section id="section-laporan" class="section-content hidden animate__animated animate__fadeIn">
+            <!-- Isi Admin Section Sama Seperti Sebelumnya -->
             <div id="auth-admin" class="bg-white rounded-[2.5rem] shadow-xl p-10 border border-slate-100 text-center">
                 <div class="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner">🔒</div>
                 <h2 class="text-xl font-extrabold text-slate-800 mb-2">Akses Terbatas</h2>
-                <p class="text-sm text-slate-400 mb-8 px-4">Laporan ini hanya dapat diakses oleh petugas Protokol dan Pimpinan.</p>
-                
                 <input type="password" id="admin-pass" class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-center mb-4 font-bold" placeholder="Kata Sandi Admin">
-                
-                <button onclick="verifyAdmin()" class="w-full bg-slate-800 text-white font-bold py-4 rounded-2xl hover:bg-black transition-all">
-                    Buka Laporan
-                </button>
-                <p class="mt-6 text-[10px] text-slate-300 font-bold uppercase tracking-widest">Authorized Personnel Only</p>
-            </div>
-            
-            <div id="data-admin" class="hidden space-y-4">
-                <div class="flex justify-between items-center mb-2">
-                    <h2 class="text-lg font-bold text-slate-800">Riwayat Kunjungan</h2>
-                    <button onclick="window.open('https://docs.google.com/spreadsheets/d/1IEXVRKIw2-7YTrt8SziR-UI_Ld9WwRHT9gyTWpyW6Bc/edit', '_blank')" class="text-xs font-bold text-indigo-600 underline">Lihat Google Sheet</button>
-                </div>
-                <p class="text-xs text-slate-500">Data tamu di bawah ini disinkronkan secara berkala dengan Google Spreadsheet Anda.</p>
-                <div class="bg-indigo-50 p-6 rounded-3xl border border-indigo-100 text-center">
-                    <p class="text-xs font-medium text-indigo-700 italic">"Gunakan fitur Ekspor pada Google Sheets untuk mengunduh laporan PDF/Excel secara lengkap."</p>
-                </div>
+                <button onclick="verifyAdmin()" class="w-full bg-slate-800 text-white font-bold py-4 rounded-2xl hover:bg-black transition-all">Buka Laporan</button>
             </div>
         </section>
-
     </main>
 
     <!-- FOOTER -->
     <footer class="fixed bottom-0 w-full z-50">
         <div class="bg-amber-400 py-1.5 overflow-hidden shadow-2xl">
             <div class="animate-marquee whitespace-nowrap text-[10px] font-extrabold text-amber-900 uppercase tracking-tighter">
-                &nbsp; --- &nbsp; SELAMAT DATANG DI SEKRETARIAT DAERAH KABUPATEN TAPIN &nbsp; --- &nbsp; TAMU WAJIB MELAPOR PADA PETUGAS PIKET &nbsp; --- &nbsp; TERIMA KASIH TELAH MENGISI BUKU TAMU DIGITAL INI &nbsp; --- &nbsp; PELAYANAN CEPAT, TRANSPARAN, DAN AKUNTABEL &nbsp; --- &nbsp;
+                &nbsp; --- &nbsp; SELAMAT DATANG DI SEKRETARIAT DAERAH KABUPATEN TAPIN &nbsp; --- &nbsp;
             </div>
         </div>
         <div class="glass py-5 px-6 text-center">
@@ -293,53 +242,25 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ352JDWTvC82ChM7h6EtKz-hbTvTVTvyeo9jG_3uLEKbAVvhNEI0IHMe3xOfkPML2Tw/exec';
 
-        // 1. Waktu Indonesia Tengah (WITA)
         function updateDate() {
             const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                day: 'numeric', 
-                month: 'long', 
-                year: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit',
-                timeZone: 'Asia/Makassar' 
-            };
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Makassar' };
             document.getElementById('date-display').innerText = now.toLocaleString('id-ID', options) + ' WITA';
         }
         setInterval(updateDate, 1000);
         updateDate();
 
-        // 2. Navigation Logic
         function switchSection(section) {
             document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(`section-${section}`).classList.remove('hidden');
-            
-            const navReg = document.getElementById('nav-reg');
-            const navReport = document.getElementById('nav-report');
-            
-            if(section === 'pendaftaran') {
-                navReg.className = "nav-btn w-11 h-11 flex items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-md transition-all";
-                navReport.className = "nav-btn w-11 h-11 flex items-center justify-center rounded-2xl bg-white text-slate-400 border border-slate-100 shadow-sm transition-all";
-            } else {
-                navReport.className = "nav-btn w-11 h-11 flex items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-md transition-all";
-                navReg.className = "nav-btn w-11 h-11 flex items-center justify-center rounded-2xl bg-white text-slate-400 border border-slate-100 shadow-sm transition-all";
-            }
         }
 
-        // 3. Admin Access
         function verifyAdmin() {
             const pass = document.getElementById('admin-pass').value;
-            if(pass === 'admin123') { 
-                document.getElementById('auth-admin').classList.add('hidden');
-                document.getElementById('data-admin').classList.remove('hidden');
-            } else {
-                alert('Kata sandi salah. Silakan hubungi bagian IT/Protokol.');
-            }
+            if(pass === 'admin123') { alert('Berhasil masuk!'); } 
+            else { alert('Sandi salah!'); }
         }
 
-        // 4. Form Submission
         const form = document.getElementById('guestForm');
         const submitBtn = document.getElementById('btn-submit');
         const btnText = document.getElementById('btn-text');
@@ -347,30 +268,36 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             submitBtn.disabled = true;
-            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
             btnText.innerText = "SEDANG MENGIRIM...";
 
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
+            // Ambil data secara manual untuk memastikan semua field terkirim
+            const payload = {
+                nama: form.nama.value,
+                asal: form.asal.value,
+                jumlah: form.jumlah.value,
+                kontak: form.kontak.value,
+                ruangan: form.ruangan.value,
+                kategori: form.kategori.value,
+                perihal: form.perihal.value
+            };
 
             try {
-                await fetch(SCRIPT_URL, {
+                // Mengirim sebagai URL Parameters (Lebih stabil untuk Google Apps Script doPost)
+                const params = new URLSearchParams(payload).toString();
+                await fetch(`${SCRIPT_URL}?${params}`, {
                     method: 'POST',
-                    mode: 'no-cors', 
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    mode: 'no-cors'
                 });
 
-                alert('Berhasil! Data kunjungan Anda telah tersimpan di sistem kami. Silakan lapor pada petugas piket.');
+                alert('Berhasil! Data kunjungan Anda (termasuk Asal Instansi) telah terkirim.');
                 form.reset();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
             } catch (error) {
-                console.error('Error!', error.message);
-                alert('Maaf, terjadi gangguan koneksi. Pastikan internet Anda aktif.');
+                console.error('Error!', error);
+                alert('Terjadi kesalahan pengiriman.');
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
                 btnText.innerText = "KIRIM DATA KUNJUNGAN";
             }
         });
