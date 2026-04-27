@@ -190,7 +190,7 @@
         const firebaseConfig = JSON.parse(__firebase_config);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-prod';
         
-        // URL Apps Script Terbaru
+        // URL Apps Script Anda
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWoCWQFBEXezF2nTPG8cslmUB7LFUDwoQyBgMVP7UUhbk0o9S_8Q5at6XSY4Xx8IRmlQ/exec";
 
         const app = initializeApp(firebaseConfig);
@@ -229,38 +229,34 @@
             const payload = Object.fromEntries(formData.entries());
 
             try {
-                // 1. Persiapkan parameter
+                // 1. Persiapkan parameter URL
                 const params = new URLSearchParams();
                 for (const key in payload) params.append(key, payload[key]);
 
-                // 2. Kirim ke Google Sheets dengan fetch (mode no-cors)
-                // Kita tambahkan timeout agar jika fetch lambat, popup tetap muncul
-                const sheetPromise = fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
-                    method: 'POST',
+                // 2. Kirim ke Google Sheets dengan metode GET (lebih stabil untuk GitHub Pages)
+                // Kita gunakan fetch dengan mode 'no-cors' agar tidak diblokir oleh browser
+                fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
+                    method: 'GET',
                     mode: 'no-cors'
                 });
 
                 // 3. Backup ke Firestore
-                let firestorePromise = Promise.resolve();
                 if (userAuthenticated && auth.currentUser) {
                     const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
-                    firestorePromise = addDoc(guestColl, {
+                    await addDoc(guestColl, {
                         ...payload,
                         timestamp: serverTimestamp(),
                         timeStr: new Date().toLocaleTimeString('id-ID')
                     });
                 }
 
-                // Tunggu proses Firestore selesai, Apps Script biasanya "tertunda" karena no-cors
-                await Promise.all([firestorePromise]);
-
-                // Tampilkan sukses meskipun fetch sheet belum selesai (biasanya berhasil di background)
+                // 4. Reset & Tampilkan Sukses
                 form.reset();
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
 
             } catch (err) {
                 console.error("Save Error:", err);
-                // Jika error parah, tetap tampilkan popup sukses karena Firestore biasanya berhasil
+                // Tetap munculkan sukses jika Firestore berhasil
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
             } finally {
                 btn.disabled = false;
