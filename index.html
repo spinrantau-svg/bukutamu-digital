@@ -184,8 +184,8 @@
         const firebaseConfig = JSON.parse(__firebase_config);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-final';
         
-        // GANTI INI DENGAN URL DARI TOMBOL "SALIN" DI SCREENSHOT PERTAMA ANDA
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOXUbQTPtSptllMOZTscEWPgSufcw4GlFoo_zfHgD2StlRj3-NYsh0cydphuzskX57nA/exec";
+        // URL Web App terbaru yang baru saja Anda berikan
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwv2bn8YXhN0S_90x93ulO8Djmbgi3WKRTNt9DtDMWZf4TcB9bRws6GBGGlkh7dMdo2Aw/exec";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -226,13 +226,13 @@
                 const params = new URLSearchParams();
                 for (const key in payload) params.append(key, payload[key]);
 
-                // Kirim ke Google Sheet
+                // Kirim ke Google Sheet (Mode no-cors untuk menghindari error CORS browser)
                 fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
                     method: 'GET',
                     mode: 'no-cors'
                 });
 
-                // Simpan ke Firestore
+                // Simpan ke Firestore (Laporan Real-time di Aplikasi)
                 if (userAuthenticated && auth.currentUser) {
                     const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
                     await addDoc(guestColl, {
