@@ -109,7 +109,6 @@
             </div>
         </section>
 
-        <!-- LAPORAN HISTORI (ADMIN) -->
         <section id="view-report" class="hidden">
             <div class="glass-card shadow-xl p-6 mb-8">
                 <div class="flex justify-between items-center mb-6">
@@ -130,7 +129,6 @@
         <div class="bg-indigo-900 text-white text-center py-2 text-[10px]">© 2025 Setda Kab. Tapin</div>
     </footer>
 
-    <!-- MODAL TERIMA KASIH -->
     <div id="successModal" class="fixed inset-0 bg-indigo-900/90 backdrop-blur-md z-[200] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center">
             <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">
@@ -142,7 +140,6 @@
         </div>
     </div>
 
-    <!-- MODAL LOGIN ADMIN -->
     <div id="authModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full">
             <h3 class="text-lg font-bold mb-4 text-center">Akses Histori</h3>
@@ -190,8 +187,8 @@
         const firebaseConfig = JSON.parse(__firebase_config);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-prod';
         
-        // URL Apps Script Baru yang diberikan
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKI9eqFSQw8Fox7MmXMC0I_Sje9C2YdAEhfcGlX2ulSSZdQOBypl8l0c_zylOZ2ePTgQ/exec";
+        // URL Web App terbaru Anda
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOXUbQTPtSptllMOZTscEWPgSufcw4GlFoo_zfHgD2StlRj3-NYsh0cydphuzskX57nA/exec";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -229,17 +226,16 @@
             const payload = Object.fromEntries(formData.entries());
 
             try {
-                // 1. Parameter untuk URL
                 const params = new URLSearchParams();
                 for (const key in payload) params.append(key, payload[key]);
 
-                // 2. Kirim ke Google Sheets (Mode GET + no-cors untuk kompatibilitas GitHub)
+                // Menggunakan mode 'no-cors' agar fetch tidak gagal karena batasan browser saat memanggil Google Script
                 fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
                     method: 'GET',
                     mode: 'no-cors'
-                }).catch(e => console.log("Silent catch for CORS"));
+                }).catch(e => console.log("Fetch silent catch"));
 
-                // 3. Simpan ke Firestore sebagai Database utama aplikasi
+                // Simpan ke Firestore untuk laporan real-time
                 if (userAuthenticated && auth.currentUser) {
                     const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
                     await addDoc(guestColl, {
@@ -249,13 +245,11 @@
                     });
                 }
 
-                // Sukses
                 form.reset();
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
 
             } catch (err) {
                 console.error("Save Error:", err);
-                // Jika Firestore gagal tapi kemungkinan Google Sheet masuk, tetap beri feedback
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
             } finally {
                 btn.disabled = false;
