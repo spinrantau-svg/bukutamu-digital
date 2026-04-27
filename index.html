@@ -3,318 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buku Tamu Digital - Setda Kab. Tapin</title>
+    <title>Buku Tamu Digital | Setda Kab. Tapin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
-        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 24px; }
-        .header-glass { background: rgba(79, 70, 229, 0.95); backdrop-filter: blur(10px); }
-        .input-focus-effect:focus { box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15); border-color: #4f46e5; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .animate-marquee { display: inline-block; white-space: nowrap; animation: marquee 20s linear infinite; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+        .bg-gradient-tapin { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); }
+        .input-focus { transition: all 0.3s ease; }
+        .input-focus:focus { transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(79, 70, 229, 0.3); }
+        
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee { display: inline-block; animation: marquee 20s linear infinite; }
     </style>
 </head>
-<body class="pb-32 pt-48">
+<body class="bg-slate-50 pb-24">
 
-    <!-- Header & Navigasi -->
-    <header class="fixed top-0 left-0 right-0 z-50 shadow-lg">
-        <div class="header-glass text-white px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="bg-white p-1 rounded-lg">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Logo_Kabupaten_Tapin.png" alt="Logo Tapin" class="h-10 w-auto">
-                </div>
+    <header class="fixed top-0 w-full z-50 glass">
+        <div class="max-w-md mx-auto">
+            <div class="flex justify-between items-center px-6 py-4">
                 <div>
-                    <h1 class="font-bold text-lg leading-tight">SETDA TAPIN</h1>
-                    <p class="text-xs opacity-80">Buku Tamu Digital</p>
+                    <h1 class="font-extrabold text-indigo-700 leading-tight">SETDA TAPIN</h1>
+                    <p class="text-[10px] text-gray-500 font-semibold tracking-widest uppercase">Digital Guest Book</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="showSection('pendaftaran')" class="w-10 h-10 flex items-center justify-center rounded-xl bg-indigo-100 text-xl hover:bg-indigo-200 transition">📝</button>
+                    <button onclick="showSection('laporan')" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 text-xl hover:bg-slate-200 transition">📊</button>
                 </div>
             </div>
-            <button onclick="showAdminAuth()" class="p-3 rounded-xl hover:bg-white/10 transition-all">
-                <span class="text-xl">📊</span>
-            </button>
-        </div>
-        <!-- Banner Animasi -->
-        <div class="bg-white w-full h-20 overflow-hidden border-b border-indigo-100 flex justify-center">
-            <img src="https://i.imghippo.com/files/kPKW4141J.gif" alt="Banner" class="h-full object-contain">
-        </div>
-        <!-- Info Waktu -->
-        <div class="bg-indigo-50 px-6 py-2 border-b border-indigo-100 flex justify-between items-center text-indigo-900 text-xs font-semibold">
-            <div id="real-date">Memuat Tanggal...</div>
-            <div id="real-time" class="bg-indigo-600 text-white px-3 py-1 rounded-full shadow-sm">00:00:00</div>
+            <div class="px-4 pb-2">
+                <img src="https://i.imghippo.com/files/kPKW4141J.gif" class="w-full h-24 object-cover rounded-2xl shadow-inner" alt="Banner">
+            </div>
+            <div id="real-time-clock" class="text-center py-1.5 text-[11px] font-bold text-indigo-600 bg-indigo-50/50"></div>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4">
-        <!-- Tampilan Form Pendaftaran -->
-        <section id="view-registration">
-            <div class="glass-card shadow-xl p-8 mb-8">
-                <div class="mb-8 text-center">
-                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Pendaftaran Tamu</h2>
-                    <p class="text-slate-500 text-sm">Silakan isi data kunjungan Anda dengan benar</p>
+    <main class="pt-52 px-6 max-w-md mx-auto">
+        
+        <section id="pendaftaran" class="section-content animate__animated animate__fadeIn">
+            <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-indigo-100 p-8 border border-slate-100">
+                <div class="flex items-center mb-8">
+                    <div class="w-12 h-12 bg-yellow-400 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-yellow-100 mr-4">👤</div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">Form Tamu</h2>
+                        <p class="text-xs text-slate-400 font-medium">Silakan lengkapi data kunjungan</p>
+                    </div>
                 </div>
 
                 <form id="guestForm" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <!-- Kolom A: Nama -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">👤 Nama Perwakilan</label>
-                            <input type="text" name="nama" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect" placeholder="Nama Lengkap">
-                        </div>
-                        <!-- Kolom B: Rombongan -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">👥 Jumlah Rombongan</label>
-                            <input type="number" name="rombongan" min="1" value="1" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect">
-                        </div>
-                        <!-- Kolom C: Kontak -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">📱 Kontak WhatsApp</label>
-                            <input type="tel" name="kontak" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect" placeholder="Contoh: 08123456789">
-                        </div>
-                        <!-- Kolom D: Ruangan -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">🚪 Ruangan Tujuan</label>
-                            <select name="ruangan" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect bg-white">
-                                <option value="">Pilih Ruangan</option>
-                                <option value="Bagian Umum">Bagian Umum</option>
-                                <option value="Bagian Protokol">Bagian Protokol</option>
-                                <option value="Bagian Hukum">Bagian Hukum</option>
-                                <option value="Ruang Sekda">Ruang Sekda</option>
-                                <option value="Ruang Bupati">Ruang Bupati</option>
-                            </select>
-                        </div>
-                        <!-- Kolom E: Pejabat -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">👔 Pejabat Tujuan</label>
-                            <select name="pejabat" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect bg-white">
-                                <option value="">Pilih Pejabat</option>
-                                <option value="Bupati Tapin">Bupati Tapin</option>
-                                <option value="Sekretaris Daerah">Sekretaris Daerah</option>
-                                <option value="Asisten Pemerintahan">Asisten Pemerintahan</option>
-                                <option value="Kabag Umum">Kabag Umum</option>
-                                <option value="Lainnya">Lainnya</option>
-                            </select>
-                        </div>
-                        <!-- Kolom F: Kategori -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">📂 Kategori Tujuan</label>
-                            <select name="kategori" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect bg-white">
-                                <option value="">Pilih Kategori</option>
-                                <option value="Audiensi">Audiensi</option>
-                                <option value="Koordinasi">Koordinasi</option>
-                                <option value="Kunjungan Kerja">Kunjungan Kerja</option>
-                                <option value="Pengaduan">Pengaduan</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!-- Kolom G: Perihal -->
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">📝 Perihal Kunjungan</label>
-                        <textarea name="perihal" required rows="2" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect" placeholder="Tuliskan maksud dan tujuan kunjungan Anda..."></textarea>
+                    <div class="relative">
+                        <label class="flex items-center text-[10px] font-bold text-slate-400 mb-1.5 ml-1 uppercase tracking-wider">
+                            <span class="mr-1">👤</span> Nama Perwakilan
+                        </label>
+                        <input type="text" name="nama" required class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-400 outline-none input-focus text-sm font-medium" placeholder="Nama lengkap Anda">
                     </div>
 
-                    <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-                        <i class="fas fa-save"></i> SIMPAN DATA KUNJUNGAN
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="flex items-center text-[10px] font-bold text-slate-400 mb-1.5 ml-1 uppercase tracking-wider">
+                                <span class="mr-1">👥</span> Rombongan
+                            </label>
+                            <input type="number" name="jumlah" required class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-400 outline-none input-focus text-sm font-medium" placeholder="Org">
+                        </div>
+                        <div>
+                            <label class="flex items-center text-[10px] font-bold text-slate-400 mb-1.5 ml-1 uppercase tracking-wider">
+                                <span class="mr-1">📱</span> WhatsApp
+                            </label>
+                            <input type="tel" name="kontak" required class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-400 outline-none input-focus text-sm font-medium" placeholder="08...">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="flex items-center text-[10px] font-bold text-slate-400 mb-1.5 ml-1 uppercase tracking-wider">
+                            <span class="mr-1">🚪</span> Ruangan Tujuan
+                        </label>
+                        <select name="ruangan" class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-400 outline-none input-focus text-sm font-medium appearance-none">
+                            <option>Bagian Protokol & Komunikasi Pimpinan</option>
+                            <option>Bagian Umum</option>
+                            <option>Bagian Hukum</option>
+                            <option>Bagian Organisasi</option>
+                            <option>Asisten Pemerintahan & Kesra</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="flex items-center text-[10px] font-bold text-slate-400 mb-1.5 ml-1 uppercase tracking-wider">
+                            <span class="mr-1">📝</span> Perihal Kunjungan
+                        </label>
+                        <textarea name="perihal" rows="3" required class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-400 outline-none input-focus text-sm font-medium" placeholder="Tuliskan tujuan keperluan Anda..."></textarea>
+                    </div>
+
+                    <details class="group bg-slate-50 rounded-2xl overflow-hidden border border-slate-100">
+                        <summary class="flex justify-between items-center p-4 cursor-pointer list-none">
+                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-tight">Etika & Standar Kunjungan</span>
+                            <span class="text-indigo-500 group-open:rotate-180 transition-transform">▼</span>
+                        </summary>
+                        <div class="p-4 pt-0 text-[11px] text-slate-500 leading-relaxed border-t border-slate-100">
+                            1. Berpakaian rapi dan sopan.<br>
+                            2. Menjaga ketertiban di lingkungan Setda.<br>
+                            3. Mengikuti arahan petugas protokol.
+                        </div>
+                    </details>
+
+                    <button type="submit" id="btnSubmit" class="w-full bg-gradient-tapin text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-200 transform active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                        <span>KIRIM DATA KUNJUNGAN</span>
+                        <span class="text-xl">🚀</span>
                     </button>
                 </form>
             </div>
         </section>
 
-        <!-- Tampilan Laporan (Hidden Default) -->
-        <section id="view-report" class="hidden">
-            <div class="glass-card shadow-xl p-6 mb-8">
-                <div class="flex justify-between items-center mb-6 border-b pb-4">
-                    <h2 class="text-xl font-bold text-slate-800"><i class="fas fa-history mr-2 text-indigo-600"></i>Histori Tamu Hari Ini</h2>
-                    <button onclick="logoutAdmin()" class="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-100">Tutup</button>
-                </div>
-                <div id="report-list" class="space-y-4">
-                    <div class="text-center py-10 text-slate-400">
-                        <i class="fas fa-folder-open text-4xl mb-2"></i>
-                        <p>Belum ada data masuk</p>
-                    </div>
-                </div>
+        <section id="laporan" class="section-content hidden animate__animated animate__fadeIn">
+            <div class="bg-white rounded-[2.5rem] shadow-xl p-6 border border-slate-100 text-center">
+                <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">🔒</div>
+                <h2 class="text-lg font-bold text-slate-800 mb-2">Akses Terbatas</h2>
+                <p class="text-xs text-slate-500 mb-6">Masukkan kata sandi admin untuk melihat laporan kunjungan.</p>
+                <input type="password" id="adminPass" class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-200 outline-none mb-4 text-center" placeholder="Kata Sandi">
+                <button onclick="checkAdmin()" class="w-full bg-slate-800 text-white font-bold py-3.5 rounded-2xl hover:bg-slate-900 transition">Buka Laporan</button>
             </div>
         </section>
+
     </main>
 
-    <!-- Footer Marquee -->
-    <footer class="fixed bottom-0 left-0 right-0 z-50">
-        <div class="bg-yellow-400 py-1 overflow-hidden border-t border-yellow-500 shadow-inner">
-            <div class="animate-marquee text-yellow-900 font-bold text-[10px] uppercase tracking-wider">
-                SELAMAT DATANG DI SETDA KABUPATEN TAPIN • MOHON ISI DATA DENGAN LENGKAP • SETELAH KLIK SIMPAN HARAP KONFIRMASI KE PETUGAS RESEPSIONIS • TERIMA KASIH •
+    <footer class="fixed bottom-0 w-full z-50">
+        <div class="bg-yellow-500 py-1.5 overflow-hidden">
+            <div class="animate-marquee whitespace-nowrap text-[10px] font-black text-white uppercase tracking-tighter">
+                --- Selamat Datang di Sekretariat Daerah Kabupaten Tapin --- Harap melapor pada petugas piket --- Utamakan kesantunan dalam berkomunikasi --- Tamu wajib mengisi buku tamu digital ---
             </div>
         </div>
-        <div class="bg-indigo-900 text-white text-center py-2 text-[10px] font-medium tracking-widest">
-            © 2025 SEKRETARIAT DAERAH KABUPATEN TAPIN
+        <div class="bg-white/90 backdrop-blur-md py-4 text-center border-t border-slate-100">
+            <p class="text-[9px] font-bold text-slate-400 tracking-widest uppercase">
+                © 2025 Protokol dan Komunikasi Pimpinan <br>
+                <span class="text-indigo-400 text-[8px]">Sekretariat Daerah Kabupaten Tapin</span>
+            </p>
         </div>
     </footer>
 
-    <!-- Modals -->
-    <div id="successModal" class="fixed inset-0 bg-indigo-900/90 backdrop-blur-md z-[200] hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center transform transition-all scale-100">
-            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-inner">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h3 class="text-2xl font-bold mb-2 text-slate-800">BERHASIL!</h3>
-            <p class="text-slate-600 mb-8 leading-relaxed">Data Anda telah masuk ke sistem.<br>Silakan <strong>Konfirmasi ke Petugas</strong>.</p>
-            <button onclick="closeSuccessModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-4 font-bold shadow-lg transition-colors">OK, SAYA MENGERTI</button>
-        </div>
-    </div>
-
-    <div id="authModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl">
-            <h3 class="text-lg font-bold mb-4 text-center text-slate-800">Verifikasi Admin</h3>
-            <input type="password" id="adminPass" class="w-full px-4 py-3 border border-slate-200 rounded-xl mb-4 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Masukkan PIN Admin">
-            <div class="flex gap-2">
-                <button onclick="closeAuthModal()" class="flex-1 py-3 text-slate-400 font-medium">Batal</button>
-                <button onclick="checkAdminPass()" class="flex-1 bg-indigo-600 text-white rounded-xl font-bold shadow-md">Masuk</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Fungsi Navigasi & UI Sederhana
-        window.isAdmin = false;
-        function showAdminAuth() { document.getElementById('authModal').classList.replace('hidden', 'flex'); }
-        function closeAuthModal() { document.getElementById('authModal').classList.replace('flex', 'hidden'); }
-        function checkAdminPass() {
-            if (document.getElementById('adminPass').value === "12345") {
-                window.isAdmin = true;
-                closeAuthModal();
-                document.getElementById('view-registration').classList.add('hidden');
-                document.getElementById('view-report').classList.remove('hidden');
-            } else {
-                alert("PIN Salah!");
-            }
-        }
-        function logoutAdmin() {
-            window.isAdmin = false;
-            document.getElementById('view-registration').classList.remove('hidden');
-            document.getElementById('view-report').classList.add('hidden');
-        }
-        function closeSuccessModal() {
-            document.getElementById('successModal').classList.replace('flex', 'hidden');
-        }
+        const SHEETS_API = 'https://script.google.com/macros/s/AKfycbxQ352JDWTvC82ChM7h6EtKz-hbTvTVTvyeo9jG_3uLEKbAVvhNEI0IHMe3xOfkPML2Tw/exec';
 
-        // Timer Update
-        setInterval(() => {
+        // 1. Live Clock Indonesia
+        function updateClock() {
             const now = new Date();
-            document.getElementById('real-date').innerText = now.toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-            document.getElementById('real-time').innerText = now.toLocaleTimeString('id-ID');
-        }, 1000);
-    </script>
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Makassar' };
+            document.getElementById('real-time-clock').innerText = now.toLocaleDateString('id-ID', options) + ' WITA';
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        // 2. Navigation
+        function showSection(id) {
+            document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-app-v2';
-        
-        // PENTING: Gunakan URL dari "New Deployment" Anda
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyGTpILXZMSK83VzlJEeUETibqtAHQnbp-R8O5GeznBxf2kyyd94Wn3pdeVU1tEbAaNCg/exec";
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        let userAuthenticated = false;
-
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) { console.error("Firebase Auth Error:", err); }
-        };
-
-        initAuth();
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                userAuthenticated = true;
-                listenData();
+        // 3. Admin Security
+        function checkAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === 'admin123') { // Ganti password sesuai keinginan
+                alert('Akses diterima. Mengalihkan ke dashboard laporan...');
+                // Di sini Anda bisa menambahkan logika Firestore atau membuka link Google Sheets langsung
+                window.open('https://docs.google.com/spreadsheets/d/1IEXVRKIw2-7YTrt8SziR-UI_Ld9WwRHT9gyTWpyW6Bc/edit', '_blank');
+            } else {
+                alert('Kata sandi salah!');
             }
-        });
+        }
 
+        // 4. Form Submission (To Google Sheets)
         const form = document.getElementById('guestForm');
+        const btn = document.getElementById('btnSubmit');
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnSubmit');
+            
+            // UI Loading State
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> Sedang Menyimpan...';
+            btn.innerHTML = `<span class="animate-spin text-xl">⏳</span> <span>MENGIRIM...</span>`;
 
             const formData = new FormData(form);
-            const payload = Object.fromEntries(formData.entries());
-
+            const data = Object.fromEntries(formData.entries());
+            
             try {
-                // 1. KIRIM KE GOOGLE SHEETS
-                const params = new URLSearchParams();
-                for (const key in payload) params.append(key, payload[key]);
-                
-                // Gunakan mode no-cors agar tidak error di browser
-                await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
-                    method: 'GET',
-                    mode: 'no-cors'
+                // Post to Google Apps Script
+                const response = await fetch(SHEETS_API, {
+                    method: 'POST',
+                    mode: 'no-cors', // Penting untuk Apps Script agar tidak kena CORS
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
                 });
 
-                // 2. KIRIM KE FIRESTORE (Untuk tampilan laporan real-time)
-                if (userAuthenticated && auth.currentUser) {
-                    const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
-                    await addDoc(guestColl, {
-                        ...payload,
-                        timestamp: serverTimestamp(),
-                        timeStr: new Date().toLocaleTimeString('id-ID')
-                    });
-                }
-
+                // Success Feedback
+                alert('✅ Terima Kasih!\nData kunjungan Anda telah berhasil tersimpan di sistem Setda Tapin.');
                 form.reset();
-                document.getElementById('successModal').classList.replace('hidden', 'flex');
-
-            } catch (err) {
-                console.error("Terjadi Kesalahan:", err);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Gagal mengirim data. Periksa koneksi internet Anda.');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-save"></i> SIMPAN DATA KUNJUNGAN';
+                btn.innerHTML = `<span>KIRIM DATA KUNJUNGAN</span> <span class="text-xl">🚀</span>`;
             }
         });
-
-        function listenData() {
-            const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
-            onSnapshot(guestColl, (snap) => {
-                const list = document.getElementById('report-list');
-                if (!list) return;
-                
-                if (snap.empty) {
-                    list.innerHTML = '<div class="text-center py-10 text-slate-400"><p>Belum ada data tamu</p></div>';
-                    return;
-                }
-
-                list.innerHTML = '';
-                const data = snap.docs
-                    .map(d => d.data())
-                    .sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-                
-                data.slice(0, 15).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = "p-4 bg-white border border-slate-100 rounded-2xl text-sm shadow-sm hover:shadow-md transition-shadow";
-                    div.innerHTML = `
-                        <div class="flex justify-between mb-2">
-                            <span class="font-bold text-slate-800">${item.nama || 'Tamu'}</span>
-                            <span class="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">${item.timeStr || ''}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-500">
-                            <div><i class="fas fa-users mr-1"></i> ${item.rombongan} Org</div>
-                            <div><i class="fas fa-door-open mr-1"></i> ${item.ruangan}</div>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
-            }, (error) => console.error("Firestore error:", error));
-        }
     </script>
 </body>
 </html>
