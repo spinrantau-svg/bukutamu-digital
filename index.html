@@ -13,6 +13,7 @@
         :root {
             --primary: #4f46e5;
             --secondary: #7c3aed;
+            --accent: #f59e0b;
         }
 
         body { 
@@ -40,6 +41,7 @@
             box-shadow: 0 12px 20px -10px rgba(79, 70, 229, 0.2);
         }
 
+        /* Marquee Animation */
         @keyframes marquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
@@ -48,62 +50,146 @@
             display: inline-block;
             animation: marquee 25s linear infinite;
         }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* Modal Overlay */
+        #successModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
     </style>
 </head>
 <body class="pb-28">
 
+    <!-- MODAL POPUP TERIMA KASIH -->
+    <div id="successModal">
+        <div class="bg-white rounded-[2.5rem] w-full max-w-sm p-8 text-center shadow-2xl animate__animated animate__zoomIn">
+            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-extrabold text-slate-800 mb-2">Terima Kasih!</h3>
+            <p class="text-slate-500 text-sm leading-relaxed mb-8">
+                Data kunjungan Anda telah terkirim. <br>
+                <span class="font-bold text-indigo-600">Silakan konfirmasi kepada petugas piket.</span>
+            </p>
+            <button onclick="closeModal()" class="w-full bg-slate-800 text-white font-bold py-4 rounded-2xl hover:bg-black transition-all active:scale-95 shadow-lg">
+                Tutup
+            </button>
+        </div>
+    </div>
+
     <!-- HEADER NAVIGATION -->
     <header class="fixed top-0 w-full z-50 glass">
-        <div class="max-w-xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-tapin rounded-xl flex items-center justify-center shadow-lg">
-                    <span class="text-white font-bold">T</span>
+        <div class="max-w-xl mx-auto">
+            <div class="flex justify-between items-center px-6 py-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-tapin rounded-xl flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold">T</span>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-slate-800 leading-tight text-sm md:text-base">SETDA TAPIN</h1>
+                        <p class="text-[9px] text-indigo-500 font-bold tracking-[0.2em] uppercase">Digital Presence</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="font-extrabold text-slate-800 leading-tight text-sm">SETDA TAPIN</h1>
-                    <p class="text-[9px] text-indigo-500 font-bold tracking-[0.2em] uppercase">Digital Presence</p>
-                </div>
+                <nav class="flex gap-2">
+                    <button onclick="switchSection('pendaftaran')" id="nav-reg" class="nav-btn w-11 h-11 flex items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-md transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </button>
+                    <button onclick="switchSection('laporan')" id="nav-report" class="nav-btn w-11 h-11 flex items-center justify-center rounded-2xl bg-white text-slate-400 border border-slate-100 shadow-sm transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </button>
+                </nav>
             </div>
-            <div id="date-display" class="text-[10px] font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                Memuat...
+            
+            <div class="px-4 pb-3">
+                <div class="relative h-28 w-full overflow-hidden rounded-3xl shadow-lg border-2 border-white">
+                    <img src="https://i.imghippo.com/files/kPKW4141J.gif" class="w-full h-full object-cover" alt="Tapin Banner">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div id="date-display" class="absolute bottom-3 left-4 text-white text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm bg-black/20 px-3 py-1 rounded-full">
+                        Memuat Tanggal...
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="pt-24 px-4 max-w-xl mx-auto">
-        <section class="animate__animated animate__fadeIn">
-            <div class="bg-white rounded-[2.5rem] shadow-xl p-8 border border-slate-50">
+    <main class="pt-56 px-4 max-w-xl mx-auto">
+        
+        <!-- SECTION: PENDAFTARAN -->
+        <section id="section-pendaftaran" class="section-content animate__animated animate__fadeIn">
+            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 p-8 border border-slate-50">
                 <header class="mb-8">
-                    <h2 class="text-2xl font-extrabold text-slate-800">Buku Tamu Digital</h2>
-                    <p class="text-sm text-slate-400 mt-1">Sekretariat Daerah Kabupaten Tapin</p>
+                    <h2 class="text-2xl font-extrabold text-slate-800">Selamat Datang</h2>
+                    <p class="text-sm text-slate-400 mt-1">Silakan isi formulir kunjungan untuk pendataan tamu.</p>
                 </header>
 
                 <form id="guestForm" class="space-y-6">
-                    <div class="input-card">
-                        <label class="text-[11px] font-bold text-slate-500 mb-2 block uppercase tracking-widest">👤 Nama Lengkap</label>
-                        <input type="text" name="nama" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold">
+                    <!-- Nama Tamu -->
+                    <div class="input-card group">
+                        <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
+                            <span class="w-6 text-center mr-2">👤</span> Nama Lengkap / Perwakilan
+                        </label>
+                        <input type="text" name="nama" id="nama" required 
+                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
+                            placeholder="Contoh: Budi Santoso">
                     </div>
 
-                    <div class="input-card">
-                        <label class="text-[11px] font-bold text-slate-500 mb-2 block uppercase tracking-widest">🏢 Asal Instansi / Alamat</label>
-                        <input type="text" name="asal" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold">
+                    <!-- Asal Tamu -->
+                    <div class="input-card group">
+                        <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
+                            <span class="w-6 text-center mr-2">🏢</span> Asal Instansi / Alamat
+                        </label>
+                        <input type="text" name="asal" id="asal" required 
+                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
+                            placeholder="Contoh: Dinas Kesehatan Tapin / Desa Tatakan">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Jumlah -->
                         <div class="input-card">
-                            <label class="text-[11px] font-bold text-slate-500 mb-2 block uppercase tracking-widest">👥 Jumlah</label>
-                            <input type="number" name="jumlah" required min="1" class="w-full px-6 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold">
+                            <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
+                                <span class="w-6 text-center mr-2">👥</span> Jumlah Rombongan
+                            </label>
+                            <input type="number" name="jumlah" id="jumlah" required min="1"
+                                class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
+                                placeholder="1">
                         </div>
+                        <!-- WA -->
                         <div class="input-card">
-                            <label class="text-[11px] font-bold text-slate-500 mb-2 block uppercase tracking-widest">📱 WhatsApp</label>
-                            <input type="tel" name="kontak" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold">
+                            <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
+                                <span class="w-6 text-center mr-2">📱</span> No. WhatsApp
+                            </label>
+                            <input type="tel" name="kontak" id="kontak" required 
+                                class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
+                                placeholder="081234567xxx">
                         </div>
                     </div>
 
+                    <!-- Tujuan (Ruangan) -->
                     <div class="input-card">
-                        <label class="text-[11px] font-bold text-slate-500 mb-2 block uppercase tracking-widest">🚪 Bagian Tujuan</label>
-                        <select name="ruangan" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold">
+                        <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
+                            <span class="w-6 text-center mr-2">🚪</span> Ruangan / Bagian Tujuan
+                        </label>
+                        <select name="ruangan" id="ruangan" required
+                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all appearance-none">
                             <option value="">Pilih Bagian...</option>
                             <option>Bagian Protokol & Komunikasi Pimpinan</option>
                             <option>Bagian Umum</option>
@@ -116,9 +202,13 @@
                         </select>
                     </div>
 
+                    <!-- Kategori Tujuan -->
                     <div class="input-card">
-                        <label class="text-[11px] font-bold text-slate-500 mb-2 block uppercase tracking-widest">📋 Kategori Tujuan</label>
-                        <select name="kategori" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold">
+                        <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
+                            <span class="w-6 text-center mr-2">📋</span> Kategori Tujuan
+                        </label>
+                        <select name="kategori" id="kategori" required
+                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all appearance-none">
                             <option value="">Pilih Kategori</option>
                             <option>Rapat Koordinasi</option>
                             <option>Konsultasi</option>
@@ -131,47 +221,95 @@
                         </select>
                     </div>
 
+                    <!-- Perihal -->
                     <div class="input-card">
-                        <label class="text-[11px] font-bold text-slate-500 mb-2 block uppercase tracking-widest">💬 Maksud & Tujuan</label>
-                        <textarea name="perihal" rows="3" required class="w-full px-6 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold"></textarea>
+                        <label class="flex items-center text-[11px] font-bold text-slate-500 mb-2 ml-1 uppercase tracking-widest">
+                            <span class="w-6 text-center mr-2">💬</span> Maksud & Tujuan
+                        </label>
+                        <textarea name="perihal" id="perihal" rows="3" required 
+                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all" 
+                            placeholder="Jelaskan keperluan kunjungan Anda secara singkat..."></textarea>
                     </div>
 
-                    <button type="submit" id="btn-submit" class="w-full bg-gradient-tapin text-white font-bold py-5 rounded-[2rem] shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3">
-                        <span id="btn-text">KIRIM DATA</span>
+                    <!-- Submit Button -->
+                    <button type="submit" id="btn-submit" class="w-full bg-gradient-tapin text-white font-bold py-5 rounded-[2rem] shadow-xl shadow-indigo-100 transform active:scale-[0.97] transition-all flex items-center justify-center gap-3 group">
+                        <span id="btn-text">KIRIM DATA KUNJUNGAN</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
                     </button>
                 </form>
             </div>
         </section>
+
+        <!-- SECTION: LAPORAN ADMIN -->
+        <section id="section-laporan" class="section-content hidden animate__animated animate__fadeIn">
+            <div id="auth-admin" class="bg-white rounded-[2.5rem] shadow-xl p-10 border border-slate-100 text-center">
+                <div class="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner">🔒</div>
+                <h2 class="text-xl font-extrabold text-slate-800 mb-2">Akses Terbatas</h2>
+                <input type="password" id="admin-pass" class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-center mb-4 font-bold" placeholder="Kata Sandi Admin">
+                <button onclick="verifyAdmin()" class="w-full bg-slate-800 text-white font-bold py-4 rounded-2xl hover:bg-black transition-all">Buka Laporan</button>
+            </div>
+        </section>
     </main>
 
-    <footer class="fixed bottom-0 w-full">
-        <div class="bg-amber-400 py-1 overflow-hidden">
-            <div class="animate-marquee whitespace-nowrap text-[9px] font-bold text-amber-900 uppercase">
-                Selamat Datang di Setda Tapin --- Harap isi data dengan benar --- Terima Kasih
+    <!-- FOOTER -->
+    <footer class="fixed bottom-0 w-full z-50">
+        <div class="bg-amber-400 py-1.5 overflow-hidden shadow-2xl">
+            <div class="animate-marquee whitespace-nowrap text-[10px] font-extrabold text-amber-900 uppercase tracking-tighter">
+                &nbsp; --- &nbsp; SELAMAT DATANG DI SEKRETARIAT DAERAH KABUPATEN TAPIN &nbsp; --- &nbsp;
             </div>
         </div>
-        <div class="glass py-4 text-center text-[10px] font-bold text-slate-400">
-            SETDA KABUPATEN TAPIN
+        <div class="glass py-5 px-6 text-center">
+            <p class="text-[10px] font-bold text-slate-400 tracking-widest uppercase">
+                © 2025 Protokol dan Komunikasi Pimpinan<br>
+                <span class="text-indigo-500 font-black">Setda Kabupaten Tapin</span>
+            </p>
         </div>
     </footer>
 
+    <!-- SCRIPTS -->
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ352JDWTvC82ChM7h6EtKz-hbTvTVTvyeo9jG_3uLEKbAVvhNEI0IHMe3xOfkPML2Tw/exec';
 
         function updateDate() {
             const now = new Date();
-            document.getElementById('date-display').innerText = now.toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Makassar' }) + ' WITA';
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Makassar' };
+            document.getElementById('date-display').innerText = now.toLocaleString('id-ID', options) + ' WITA';
         }
         setInterval(updateDate, 1000);
         updateDate();
 
+        function switchSection(section) {
+            document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`section-${section}`).classList.remove('hidden');
+        }
+
+        function verifyAdmin() {
+            const pass = document.getElementById('admin-pass').value;
+            if(pass === 'admin123') { alert('Berhasil masuk!'); } 
+            else { alert('Sandi salah!'); }
+        }
+
+        // Functions for Modal
+        function showModal() {
+            const modal = document.getElementById('successModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.style.display = 'none';
+        }
+
         const form = document.getElementById('guestForm');
         const submitBtn = document.getElementById('btn-submit');
+        const btnText = document.getElementById('btn-text');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             submitBtn.disabled = true;
-            document.getElementById('btn-text').innerText = "MENGIRIM...";
+            btnText.innerText = "SEDANG MENGIRIM...";
 
             const payload = {
                 nama: form.nama.value,
@@ -184,22 +322,23 @@
             };
 
             try {
-                // Mengirim sebagai JSON String via POST
-                await fetch(SCRIPT_URL, {
+                const params = new URLSearchParams(payload).toString();
+                await fetch(`${SCRIPT_URL}?${params}`, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    mode: 'no-cors'
                 });
 
-                alert('Data berhasil terkirim!');
+                // SUCCESS ACTION
                 form.reset();
+                showModal(); // Tampilkan popup terima kasih
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
             } catch (error) {
-                alert('Gagal mengirim data. Cek koneksi internet.');
+                console.error('Error!', error);
+                alert('Terjadi kesalahan pengiriman.');
             } finally {
                 submitBtn.disabled = false;
-                document.getElementById('btn-text').innerText = "KIRIM DATA";
+                btnText.innerText = "KIRIM DATA KUNJUNGAN";
             }
         });
     </script>
