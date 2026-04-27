@@ -103,7 +103,7 @@
                     </div>
 
                     <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-                        <i class="fas fa-save"></i> SIMPAN
+                        <i class="fas fa-save"></i> SIMPAN DATA
                     </button>
                 </form>
             </div>
@@ -185,12 +185,12 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, query } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
         const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-final';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-prod';
         
-        // PENTING: Ganti URL di bawah ini dengan URL Deployment Apps Script Anda yang baru
+        // PENTING: Pastikan URL ini adalah URL Deployment TERBARU berakhiran /exec
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWoCWQFBEXezF2nTPG8cslmUB7LFUDm8p9v99R8z6UqN7mUu1Sj_B9M6z5p9mR_g_i/exec";
 
         const app = initializeApp(firebaseConfig);
@@ -217,8 +217,6 @@
             if (user) {
                 userAuthenticated = true;
                 listenData();
-            } else {
-                userAuthenticated = false;
             }
         });
 
@@ -227,24 +225,26 @@
             e.preventDefault();
             const btn = document.getElementById('btnSubmit');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> Menyimpan...';
+            btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> Memproses...';
 
             const formData = new FormData(form);
             const payload = Object.fromEntries(formData.entries());
 
             try {
-                // 1. Kirim ke Google Sheets menggunakan URLSearchParams (agar sesuai dengan e.parameter di Apps Script)
+                // 1. Kirim ke Google Sheets via fetch
                 const params = new URLSearchParams();
                 for (const key in payload) params.append(key, payload[key]);
 
-                // Menggunakan mode: 'no-cors' agar request tetap terkirim meskipun Google Apps Script tidak mendukung CORS secara penuh
-                fetch(GOOGLE_SCRIPT_URL, {
+                // Gunakan mode no-cors untuk menghindari masalah preflight CORS pada Apps Script
+                await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    body: params
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: params.toString()
                 });
 
-                // 2. Simpan cadangan ke Firestore
+                // 2. Backup ke Firestore
                 if (userAuthenticated && auth.currentUser) {
                     const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
                     await addDoc(guestColl, {
@@ -254,20 +254,20 @@
                     });
                 }
 
-                // 3. Tampilkan Notifikasi Berhasil
+                // 3. Tampilkan Sukses
                 form.reset();
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
 
             } catch (err) {
-                console.error("Save Error:", err);
+                console.error("Gagal mengirim:", err);
+                alert("Terjadi kesalahan koneksi. Silakan hubungi admin atau coba lagi.");
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-save"></i> SIMPAN';
+                btn.innerHTML = '<i class="fas fa-save"></i> SIMPAN DATA';
             }
         });
 
         function listenData() {
-            if (!userAuthenticated) return;
             const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
             onSnapshot(guestColl, (snap) => {
                 const list = document.getElementById('report-list');
@@ -277,9 +277,9 @@
                     .map(d => d.data())
                     .sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
                 
-                data.forEach(item => {
+                data.slice(0, 10).forEach(item => {
                     const div = document.createElement('div');
-                    div.className = "p-3 bg-white border rounded-xl text-sm";
+                    div.className = "p-3 bg-white border rounded-xl text-sm shadow-sm";
                     div.innerHTML = `<strong>${item.nama || 'Tamu'}</strong> <span class="text-[10px] text-slate-400">(${item.timeStr || ''})</span><br><span class="text-xs text-indigo-600">${item.ruangan || ''} - ${item.pejabat || ''}</span>`;
                     list.appendChild(div);
                 });
