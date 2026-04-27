@@ -18,6 +18,7 @@
 </head>
 <body class="pb-32 pt-48">
 
+    <!-- Header & Navigasi -->
     <header class="fixed top-0 left-0 right-0 z-50 shadow-lg">
         <div class="header-glass text-white px-6 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -33,132 +34,157 @@
                 <span class="text-xl">📊</span>
             </button>
         </div>
+        <!-- Banner Animasi -->
         <div class="bg-white w-full h-20 overflow-hidden border-b border-indigo-100 flex justify-center">
             <img src="https://i.imghippo.com/files/kPKW4141J.gif" alt="Banner" class="h-full object-contain">
         </div>
+        <!-- Info Waktu -->
         <div class="bg-indigo-50 px-6 py-2 border-b border-indigo-100 flex justify-between items-center text-indigo-900 text-xs font-semibold">
-            <div id="real-date">Memuat...</div>
-            <div id="real-time" class="bg-indigo-600 text-white px-3 py-1 rounded-full">00:00:00</div>
+            <div id="real-date">Memuat Tanggal...</div>
+            <div id="real-time" class="bg-indigo-600 text-white px-3 py-1 rounded-full shadow-sm">00:00:00</div>
         </div>
     </header>
 
     <main class="max-w-4xl mx-auto px-4">
+        <!-- Tampilan Form Pendaftaran -->
         <section id="view-registration">
             <div class="glass-card shadow-xl p-8 mb-8">
                 <div class="mb-8 text-center">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">Pendaftaran Tamu</h2>
-                    <p class="text-slate-500 text-sm">Silakan isi formulir di bawah ini</p>
+                    <p class="text-slate-500 text-sm">Silakan isi data kunjungan Anda dengan benar</p>
                 </div>
 
                 <form id="guestForm" class="space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Kolom A: Nama -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-1">👤 Nama Perwakilan</label>
                             <input type="text" name="nama" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect" placeholder="Nama Lengkap">
                         </div>
+                        <!-- Kolom B: Rombongan -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-1">👥 Jumlah Rombongan</label>
                             <input type="number" name="rombongan" min="1" value="1" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect">
                         </div>
+                        <!-- Kolom C: Kontak -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-1">📱 Kontak WhatsApp</label>
-                            <input type="tel" name="kontak" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect" placeholder="0812...">
+                            <input type="tel" name="kontak" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect" placeholder="Contoh: 08123456789">
                         </div>
+                        <!-- Kolom D: Ruangan -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-1">🚪 Ruangan Tujuan</label>
                             <select name="ruangan" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect bg-white">
                                 <option value="">Pilih Ruangan</option>
                                 <option value="Bagian Umum">Bagian Umum</option>
                                 <option value="Bagian Protokol">Bagian Protokol</option>
+                                <option value="Bagian Hukum">Bagian Hukum</option>
                                 <option value="Ruang Sekda">Ruang Sekda</option>
                                 <option value="Ruang Bupati">Ruang Bupati</option>
                             </select>
                         </div>
+                        <!-- Kolom E: Pejabat -->
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-1">👔 Pejabat Tujuan</label>
                             <select name="pejabat" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect bg-white">
                                 <option value="">Pilih Pejabat</option>
-                                <option value="Bupati">Bupati</option>
-                                <option value="Sekda">Sekda</option>
-                                <option value="Kabag">Kabag</option>
-                                <option value="Staf Ahli">Staf Ahli</option>
+                                <option value="Bupati Tapin">Bupati Tapin</option>
+                                <option value="Sekretaris Daerah">Sekretaris Daerah</option>
+                                <option value="Asisten Pemerintahan">Asisten Pemerintahan</option>
+                                <option value="Kabag Umum">Kabag Umum</option>
+                                <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
+                        <!-- Kolom F: Kategori -->
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">📂 Kategori</label>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">📂 Kategori Tujuan</label>
                             <select name="kategori" required class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect bg-white">
                                 <option value="">Pilih Kategori</option>
                                 <option value="Audiensi">Audiensi</option>
                                 <option value="Koordinasi">Koordinasi</option>
                                 <option value="Kunjungan Kerja">Kunjungan Kerja</option>
-                                <option value="Lainnya">Lainnya</option>
+                                <option value="Pengaduan">Pengaduan</option>
                             </select>
                         </div>
                     </div>
+                    <!-- Kolom G: Perihal -->
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1">📝 Perihal Kunjungan</label>
-                        <textarea name="perihal" required rows="2" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect" placeholder="Maksud dan tujuan..."></textarea>
+                        <textarea name="perihal" required rows="2" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none input-focus-effect" placeholder="Tuliskan maksud dan tujuan kunjungan Anda..."></textarea>
                     </div>
 
                     <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-                        <i class="fas fa-save"></i> SIMPAN DATA
+                        <i class="fas fa-save"></i> SIMPAN DATA KUNJUNGAN
                     </button>
                 </form>
             </div>
         </section>
 
+        <!-- Tampilan Laporan (Hidden Default) -->
         <section id="view-report" class="hidden">
             <div class="glass-card shadow-xl p-6 mb-8">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold text-slate-800">Histori Penyimpanan</h2>
-                    <button onclick="logoutAdmin()" class="text-red-500 text-sm font-bold">Tutup</button>
+                <div class="flex justify-between items-center mb-6 border-b pb-4">
+                    <h2 class="text-xl font-bold text-slate-800"><i class="fas fa-history mr-2 text-indigo-600"></i>Histori Tamu Hari Ini</h2>
+                    <button onclick="logoutAdmin()" class="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-100">Tutup</button>
                 </div>
-                <div id="report-list" class="space-y-3"></div>
+                <div id="report-list" class="space-y-4">
+                    <div class="text-center py-10 text-slate-400">
+                        <i class="fas fa-folder-open text-4xl mb-2"></i>
+                        <p>Belum ada data masuk</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
+    <!-- Footer Marquee -->
     <footer class="fixed bottom-0 left-0 right-0 z-50">
-        <div class="bg-yellow-400 py-1 overflow-hidden">
-            <div class="animate-marquee text-yellow-900 font-bold text-[10px]">
-                SETDA KABUPATEN TAPIN • SILAKAN KONFIRMASI KE PETUGAS SETELAH MENEKAN TOMBOL SIMPAN • TERIMA KASIH • 
+        <div class="bg-yellow-400 py-1 overflow-hidden border-t border-yellow-500 shadow-inner">
+            <div class="animate-marquee text-yellow-900 font-bold text-[10px] uppercase tracking-wider">
+                SELAMAT DATANG DI SETDA KABUPATEN TAPIN • MOHON ISI DATA DENGAN LENGKAP • SETELAH KLIK SIMPAN HARAP KONFIRMASI KE PETUGAS RESEPSIONIS • TERIMA KASIH •
             </div>
         </div>
-        <div class="bg-indigo-900 text-white text-center py-2 text-[10px]">© 2025 Setda Kab. Tapin</div>
+        <div class="bg-indigo-900 text-white text-center py-2 text-[10px] font-medium tracking-widest">
+            © 2025 SEKRETARIAT DAERAH KABUPATEN TAPIN
+        </div>
     </footer>
 
+    <!-- Modals -->
     <div id="successModal" class="fixed inset-0 bg-indigo-900/90 backdrop-blur-md z-[200] hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center">
-            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center transform transition-all scale-100">
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-inner">
                 <i class="fas fa-check-circle"></i>
             </div>
-            <h3 class="text-2xl font-bold mb-2 text-slate-800">TERIMA KASIH</h3>
-            <p class="text-slate-600 mb-8 leading-relaxed">Data Anda telah masuk ke sistem. Silakan <strong>Konfirmasi ke Petugas</strong>.</p>
-            <button onclick="closeSuccessModal()" class="w-full bg-indigo-600 text-white rounded-xl py-4 font-bold shadow-lg">OK, SAYA MENGERTI</button>
+            <h3 class="text-2xl font-bold mb-2 text-slate-800">BERHASIL!</h3>
+            <p class="text-slate-600 mb-8 leading-relaxed">Data Anda telah masuk ke sistem.<br>Silakan <strong>Konfirmasi ke Petugas</strong>.</p>
+            <button onclick="closeSuccessModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-4 font-bold shadow-lg transition-colors">OK, SAYA MENGERTI</button>
         </div>
     </div>
 
     <div id="authModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-sm w-full">
-            <h3 class="text-lg font-bold mb-4 text-center">Akses Histori</h3>
-            <input type="password" id="adminPass" class="w-full px-4 py-3 border rounded-xl mb-4 outline-none" placeholder="Password Admin">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+            <h3 class="text-lg font-bold mb-4 text-center text-slate-800">Verifikasi Admin</h3>
+            <input type="password" id="adminPass" class="w-full px-4 py-3 border border-slate-200 rounded-xl mb-4 outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Masukkan PIN Admin">
             <div class="flex gap-2">
-                <button onclick="closeAuthModal()" class="flex-1 py-3 text-slate-400">Batal</button>
-                <button onclick="checkAdminPass()" class="flex-1 bg-indigo-600 text-white rounded-xl font-bold">Masuk</button>
+                <button onclick="closeAuthModal()" class="flex-1 py-3 text-slate-400 font-medium">Batal</button>
+                <button onclick="checkAdminPass()" class="flex-1 bg-indigo-600 text-white rounded-xl font-bold shadow-md">Masuk</button>
             </div>
         </div>
     </div>
 
     <script>
+        // Fungsi Navigasi & UI Sederhana
         window.isAdmin = false;
         function showAdminAuth() { document.getElementById('authModal').classList.replace('hidden', 'flex'); }
         function closeAuthModal() { document.getElementById('authModal').classList.replace('flex', 'hidden'); }
         function checkAdminPass() {
-            if (document.getElementById('adminPass').value === "admin123") {
+            if (document.getElementById('adminPass').value === "12345") {
                 window.isAdmin = true;
                 closeAuthModal();
                 document.getElementById('view-registration').classList.add('hidden');
                 document.getElementById('view-report').classList.remove('hidden');
+            } else {
+                alert("PIN Salah!");
             }
         }
         function logoutAdmin() {
@@ -169,6 +195,8 @@
         function closeSuccessModal() {
             document.getElementById('successModal').classList.replace('flex', 'hidden');
         }
+
+        // Timer Update
         setInterval(() => {
             const now = new Date();
             document.getElementById('real-date').innerText = now.toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
@@ -182,10 +210,10 @@
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
         const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-final';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-app-v2';
         
-        // URL Web App terbaru yang baru saja Anda berikan
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwv2bn8YXhN0S_90x93ulO8Djmbgi3WKRTNt9DtDMWZf4TcB9bRws6GBGGlkh7dMdo2Aw/exec";
+        // PENTING: Gunakan URL dari "New Deployment" Anda
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyGTpILXZMSK83VzlJEeUETibqtAHQnbp-R8O5GeznBxf2kyyd94Wn3pdeVU1tEbAaNCg/exec";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -200,7 +228,7 @@
                 } else {
                     await signInAnonymously(auth);
                 }
-            } catch (err) { console.error("Auth Error:", err); }
+            } catch (err) { console.error("Firebase Auth Error:", err); }
         };
 
         initAuth();
@@ -217,22 +245,23 @@
             e.preventDefault();
             const btn = document.getElementById('btnSubmit');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> Memproses...';
+            btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> Sedang Menyimpan...';
 
             const formData = new FormData(form);
             const payload = Object.fromEntries(formData.entries());
 
             try {
+                // 1. KIRIM KE GOOGLE SHEETS
                 const params = new URLSearchParams();
                 for (const key in payload) params.append(key, payload[key]);
-
-                // Kirim ke Google Sheet (Mode no-cors untuk menghindari error CORS browser)
-                fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
+                
+                // Gunakan mode no-cors agar tidak error di browser
+                await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
                     method: 'GET',
                     mode: 'no-cors'
                 });
 
-                // Simpan ke Firestore (Laporan Real-time di Aplikasi)
+                // 2. KIRIM KE FIRESTORE (Untuk tampilan laporan real-time)
                 if (userAuthenticated && auth.currentUser) {
                     const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
                     await addDoc(guestColl, {
@@ -246,10 +275,10 @@
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
 
             } catch (err) {
-                console.error("Save Error:", err);
+                console.error("Terjadi Kesalahan:", err);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-save"></i> SIMPAN DATA';
+                btn.innerHTML = '<i class="fas fa-save"></i> SIMPAN DATA KUNJUNGAN';
             }
         });
 
@@ -258,18 +287,33 @@
             onSnapshot(guestColl, (snap) => {
                 const list = document.getElementById('report-list');
                 if (!list) return;
+                
+                if (snap.empty) {
+                    list.innerHTML = '<div class="text-center py-10 text-slate-400"><p>Belum ada data tamu</p></div>';
+                    return;
+                }
+
                 list.innerHTML = '';
                 const data = snap.docs
                     .map(d => d.data())
                     .sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
                 
-                data.slice(0, 10).forEach(item => {
+                data.slice(0, 15).forEach(item => {
                     const div = document.createElement('div');
-                    div.className = "p-3 bg-white border rounded-xl text-sm shadow-sm";
-                    div.innerHTML = `<strong>${item.nama || 'Tamu'}</strong> <span class="text-[10px] text-slate-400">(${item.timeStr || ''})</span><br><span class="text-xs text-indigo-600">${item.ruangan || ''}</span>`;
+                    div.className = "p-4 bg-white border border-slate-100 rounded-2xl text-sm shadow-sm hover:shadow-md transition-shadow";
+                    div.innerHTML = `
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold text-slate-800">${item.nama || 'Tamu'}</span>
+                            <span class="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">${item.timeStr || ''}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-500">
+                            <div><i class="fas fa-users mr-1"></i> ${item.rombongan} Org</div>
+                            <div><i class="fas fa-door-open mr-1"></i> ${item.ruangan}</div>
+                        </div>
+                    `;
                     list.appendChild(div);
                 });
-            }, (error) => console.error("Snapshot error:", error));
+            }, (error) => console.error("Firestore error:", error));
         }
     </script>
 </body>
