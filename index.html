@@ -34,6 +34,12 @@
             justify-content: center;
             padding: 20px;
         }
+
+        .nav-btn.active {
+            background: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
     </style>
 </head>
 <body class="pb-32">
@@ -70,9 +76,20 @@
                         <p class="text-[9px] text-indigo-500 font-bold tracking-widest uppercase">Digital Presence</p>
                     </div>
                 </div>
-                <div id="date-display" class="text-[10px] font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                    Memuat...
-                </div>
+                
+                <!-- NAVIGASI FITUR ADMIN -->
+                <nav class="flex gap-2">
+                    <button onclick="switchSection('pendaftaran')" id="nav-reg" class="nav-btn active w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </button>
+                    <button onclick="switchSection('laporan')" id="nav-report" class="nav-btn w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </button>
+                </nav>
             </div>
             
             <!-- MINI BANNER HEADER -->
@@ -80,77 +97,95 @@
                 <div class="relative h-24 w-full overflow-hidden rounded-3xl shadow-lg border-2 border-white">
                     <img src="https://i.imghippo.com/files/kPKW4141J.gif" class="w-full h-full object-cover" alt="Tapin Banner">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                    <div id="date-display" class="absolute bottom-2 right-4 text-[9px] font-bold text-white bg-black/20 backdrop-blur-md px-2 py-1 rounded-lg">
+                        Memuat...
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- FORM -->
+    <!-- MAIN CONTENT -->
     <main class="pt-52 px-4 max-w-xl mx-auto">
-        <section class="bg-white rounded-[2.5rem] shadow-xl p-8 border border-slate-50 animate__animated animate__fadeIn">
-            <h2 class="text-2xl font-extrabold text-slate-800 mb-6">Buku Tamu Digital</h2>
-            
-            <form id="guestForm" class="space-y-5">
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nama Lengkap</label>
-                    <input type="text" name="nama" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all">
-                </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Asal Instansi</label>
-                    <input type="text" name="asal" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
+        
+        <!-- SECTION: PENDAFTARAN -->
+        <section id="section-pendaftaran" class="section-content animate__animated animate__fadeIn">
+            <div class="bg-white rounded-[2.5rem] shadow-xl p-8 border border-slate-50">
+                <h2 class="text-2xl font-extrabold text-slate-800 mb-6">Buku Tamu Digital</h2>
+                
+                <form id="guestForm" class="space-y-5">
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Jumlah</label>
-                        <input type="number" name="jumlah" required min="1" class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nama Lengkap</label>
+                        <input type="text" name="nama" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all">
                     </div>
+
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">WhatsApp</label>
-                        <input type="tel" name="kontak" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Asal Instansi</label>
+                        <input type="text" name="asal" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all">
                     </div>
-                </div>
 
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Tujuan Ruangan</label>
-                    <select name="ruangan" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all appearance-none">
-                        <option value="">Pilih Bagian...</option>
-                        <option>Bagian Protokol & Komunikasi Pimpinan</option>
-                        <option>Bagian Umum</option>
-                        <option>Bagian Hukum</option>
-                        <option>Bagian Organisasi</option>
-                        <option>Bagian Pemerintahan</option>
-                        <option>Bagian Kesejahteraan Rakyat</option>
-                        <option>Bagian Perekonomian & SDA</option>
-                        <option>Bagian Pengadaan Barang & Jasa</option>
-                    </select>
-                </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Jumlah</label>
+                            <input type="number" name="jumlah" required min="1" class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">WhatsApp</label>
+                            <input type="tel" name="kontak" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all">
+                        </div>
+                    </div>
 
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Kategori Tujuan</label>
-                    <select name="kategori" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all appearance-none">
-                        <option value="">Pilih Kategori</option>
-                        <option>Rapat Koordinasi</option>
-                        <option>Konsultasi</option>
-                        <option>Audiensi</option>
-                        <option>Silaturahmi</option>
-                        <option>Penyampaian Laporan</option>
-                        <option>Kunjungan Kerja</option>
-                        <option>Urusan Administrasi</option>
-                        <option>Lainnya</option>
-                    </select>
-                </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Tujuan Ruangan</label>
+                        <select name="ruangan" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all appearance-none">
+                            <option value="">Pilih Bagian...</option>
+                            <option>Bagian Protokol & Komunikasi Pimpinan</option>
+                            <option>Bagian Umum</option>
+                            <option>Bagian Hukum</option>
+                            <option>Bagian Organisasi</option>
+                            <option>Bagian Pemerintahan</option>
+                            <option>Bagian Kesejahteraan Rakyat</option>
+                            <option>Bagian Perekonomian & SDA</option>
+                            <option>Bagian Pengadaan Barang & Jasa</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Keterangan / Perihal</label>
-                    <textarea name="perihal" rows="3" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all"></textarea>
-                </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Kategori Tujuan</label>
+                        <select name="kategori" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all appearance-none">
+                            <option value="">Pilih Kategori</option>
+                            <option>Rapat Koordinasi</option>
+                            <option>Konsultasi</option>
+                            <option>Audiensi</option>
+                            <option>Silaturahmi</option>
+                            <option>Penyampaian Laporan</option>
+                            <option>Kunjungan Kerja</option>
+                            <option>Urusan Administrasi</option>
+                            <option>Lainnya</option>
+                        </select>
+                    </div>
 
-                <button type="submit" id="btn-submit" class="w-full bg-gradient-tapin text-white font-bold py-5 rounded-[2rem] shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3 active:scale-95">
-                    <span id="btn-text">KIRIM DATA</span>
-                </button>
-            </form>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Keterangan / Perihal</label>
+                        <textarea name="perihal" rows="3" required class="w-full px-5 py-4 rounded-2xl bg-slate-50 ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-sm font-semibold transition-all"></textarea>
+                    </div>
+
+                    <button type="submit" id="btn-submit" class="w-full bg-gradient-tapin text-white font-bold py-5 rounded-[2rem] shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3 active:scale-95">
+                        <span id="btn-text">KIRIM DATA</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECTION: LAPORAN ADMIN -->
+        <section id="section-laporan" class="section-content hidden animate__animated animate__fadeIn">
+            <div id="auth-admin" class="bg-white rounded-[2.5rem] shadow-xl p-10 border border-slate-100 text-center">
+                <div class="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner">🔒</div>
+                <h2 class="text-xl font-extrabold text-slate-800 mb-2">Akses Terbatas</h2>
+                <p class="text-xs text-slate-400 mb-6 uppercase tracking-widest font-bold">Laporan Kunjungan Tamu</p>
+                <input type="password" id="admin-pass" class="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none ring-2 ring-slate-100 focus:ring-indigo-500 outline-none text-center mb-4 font-bold" placeholder="Kata Sandi Admin">
+                <button onclick="verifyAdmin()" class="w-full bg-slate-800 text-white font-bold py-4 rounded-2xl hover:bg-black transition-all">Buka Laporan</button>
+            </div>
         </section>
     </main>
 
@@ -177,6 +212,27 @@
             document.getElementById('date-display').innerText = now.toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Makassar' }) + ' WITA';
         }
         setInterval(updateDate, 1000); updateDate();
+
+        // Fitur Switch Section (Navigasi)
+        function switchSection(section) {
+            document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(`section-${section}`).classList.remove('hidden');
+            if(section === 'pendaftaran') document.getElementById('nav-reg').classList.add('active');
+            if(section === 'laporan') document.getElementById('nav-report').classList.add('active');
+        }
+
+        // Verifikasi Admin (Sederhana)
+        function verifyAdmin() {
+            const pass = document.getElementById('admin-pass').value;
+            if(pass === 'admin123') { 
+                // Redirect ke Google Sheet Laporan atau buka link
+                window.open('https://docs.google.com/spreadsheets/d/1X_U3r7Bw4kO7r9S_m8n-Z6o7A-6_K988/edit', '_blank');
+            } else { 
+                alert('Kata sandi salah!'); 
+            }
+        }
 
         function showModal() { document.getElementById('successModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('successModal').style.display = 'none'; }
