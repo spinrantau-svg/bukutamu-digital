@@ -190,8 +190,8 @@
         const firebaseConfig = JSON.parse(__firebase_config);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-prod';
         
-        // URL Apps Script Anda
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWoCWQFBEXezF2nTPG8cslmUB7LFUDwoQyBgMVP7UUhbk0o9S_8Q5at6XSY4Xx8IRmlQ/exec";
+        // URL Apps Script Baru yang diberikan
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKI9eqFSQw8Fox7MmXMC0I_Sje9C2YdAEhfcGlX2ulSSZdQOBypl8l0c_zylOZ2ePTgQ/exec";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -229,18 +229,17 @@
             const payload = Object.fromEntries(formData.entries());
 
             try {
-                // 1. Persiapkan parameter URL
+                // 1. Parameter untuk URL
                 const params = new URLSearchParams();
                 for (const key in payload) params.append(key, payload[key]);
 
-                // 2. Kirim ke Google Sheets dengan metode GET (lebih stabil untuk GitHub Pages)
-                // Kita gunakan fetch dengan mode 'no-cors' agar tidak diblokir oleh browser
+                // 2. Kirim ke Google Sheets (Mode GET + no-cors untuk kompatibilitas GitHub)
                 fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
                     method: 'GET',
                     mode: 'no-cors'
-                });
+                }).catch(e => console.log("Silent catch for CORS"));
 
-                // 3. Backup ke Firestore
+                // 3. Simpan ke Firestore sebagai Database utama aplikasi
                 if (userAuthenticated && auth.currentUser) {
                     const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
                     await addDoc(guestColl, {
@@ -250,13 +249,13 @@
                     });
                 }
 
-                // 4. Reset & Tampilkan Sukses
+                // Sukses
                 form.reset();
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
 
             } catch (err) {
                 console.error("Save Error:", err);
-                // Tetap munculkan sukses jika Firestore berhasil
+                // Jika Firestore gagal tapi kemungkinan Google Sheet masuk, tetap beri feedback
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
             } finally {
                 btn.disabled = false;
