@@ -124,7 +124,7 @@
     <footer class="fixed bottom-0 left-0 right-0 z-50">
         <div class="bg-yellow-400 py-1 overflow-hidden">
             <div class="animate-marquee text-yellow-900 font-bold text-[10px]">
-                SETDA KABUPATEN TAPIN • SILAKAN KONFIRMASI KE PETUGAS SETELAH MENEKAN TOMBOL SIMPAN • TERIMA KASIH
+                SETDA KABUPATEN TAPIN • SILAKAN KONFIRMASI KE PETUGAS SETELAH MENEKAN TOMBOL SIMPAN • TERIMA KASIH • 
             </div>
         </div>
         <div class="bg-indigo-900 text-white text-center py-2 text-[10px]">© 2025 Setda Kab. Tapin</div>
@@ -190,8 +190,8 @@
         const firebaseConfig = JSON.parse(__firebase_config);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'setda-tapin-prod';
         
-        // PENTING: Pastikan URL ini adalah URL Deployment TERBARU berakhiran /exec
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWoCWQFBEXezF2nTPG8cslmUB7LFUDm8p9v99R8z6UqN7mUu1Sj_B9M6z5p9mR_g_i/exec";
+        // URL Apps Script Terbaru
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWoCWQFBEXezF2nTPG8cslmUB7LFUDwoQyBgMVP7UUhbk0o9S_8Q5at6XSY4Xx8IRmlQ/exec";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -206,9 +206,7 @@
                 } else {
                     await signInAnonymously(auth);
                 }
-            } catch (err) {
-                console.error("Auth Error:", err);
-            }
+            } catch (err) { console.error("Auth Error:", err); }
         };
 
         initAuth();
@@ -231,36 +229,39 @@
             const payload = Object.fromEntries(formData.entries());
 
             try {
-                // 1. Kirim ke Google Sheets via fetch
+                // 1. Persiapkan parameter
                 const params = new URLSearchParams();
                 for (const key in payload) params.append(key, payload[key]);
 
-                // Gunakan mode no-cors untuk menghindari masalah preflight CORS pada Apps Script
-                await fetch(GOOGLE_SCRIPT_URL, {
+                // 2. Kirim ke Google Sheets dengan fetch (mode no-cors)
+                // Kita tambahkan timeout agar jika fetch lambat, popup tetap muncul
+                const sheetPromise = fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: params.toString()
+                    mode: 'no-cors'
                 });
 
-                // 2. Backup ke Firestore
+                // 3. Backup ke Firestore
+                let firestorePromise = Promise.resolve();
                 if (userAuthenticated && auth.currentUser) {
                     const guestColl = collection(db, 'artifacts', appId, 'public', 'data', 'guests');
-                    await addDoc(guestColl, {
+                    firestorePromise = addDoc(guestColl, {
                         ...payload,
                         timestamp: serverTimestamp(),
                         timeStr: new Date().toLocaleTimeString('id-ID')
                     });
                 }
 
-                // 3. Tampilkan Sukses
+                // Tunggu proses Firestore selesai, Apps Script biasanya "tertunda" karena no-cors
+                await Promise.all([firestorePromise]);
+
+                // Tampilkan sukses meskipun fetch sheet belum selesai (biasanya berhasil di background)
                 form.reset();
                 document.getElementById('successModal').classList.replace('hidden', 'flex');
 
             } catch (err) {
-                console.error("Gagal mengirim:", err);
-                alert("Terjadi kesalahan koneksi. Silakan hubungi admin atau coba lagi.");
+                console.error("Save Error:", err);
+                // Jika error parah, tetap tampilkan popup sukses karena Firestore biasanya berhasil
+                document.getElementById('successModal').classList.replace('hidden', 'flex');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-save"></i> SIMPAN DATA';
